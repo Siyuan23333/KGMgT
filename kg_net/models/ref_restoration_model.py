@@ -11,7 +11,7 @@ import kg_net.models.networks as networks
 import kg_net.utils.metrics as metrics
 import kg_net.utils.PSNRSSIMloss as PSNRSSIMloss
 from kg_net.utils import ProgressBar, tensor2img, img2tensor
-from kg_net.data.util import complex_abs_eval
+from data.util import complex_abs_eval
 
 from .sr_model import SRModel
 import pdb

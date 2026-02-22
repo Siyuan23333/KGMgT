@@ -12,18 +12,13 @@ datasets:
   train:
     name: Heart_mat
     type: RefCUFEDDataset
-    dataroot_in: ~
-    dataroot_ref: ~
-    dataroot_mask: ~
-    mask_fold: mask6
-    io_backend:
-      type: disk
+    ksp_dir: ~    # path to k-space .npy files  [T, C, H, W] complex
+    mask_dir: ~   # path to mask .npy files      [T, H, W]
+    sense_dir: ~  # path to sensitivity .npy files [T, C, H, W] complex
 
     gt_size: 256
     use_flip: true
     use_rot: true
-
-    bicubic_model: PIL
 
     use_shuffle: true
     n_workers: 1  # per GPU
@@ -33,16 +28,11 @@ datasets:
   val:
     name: val_Heart5_mat
     type: RefDataset
-    dataroot_in: ~
-    dataroot_ref: ~
-    dataroot_mask: ~
-    mask_fold: mask6
-    io_backend:
-      type: disk
+    ksp_dir: ~    # path to k-space .npy files
+    mask_dir: ~   # path to mask .npy files
+    sense_dir: ~  # path to sensitivity .npy files
 
     ann_file: ~
-
-    bicubic_model: PIL
 
 # network structures
 network_g:
