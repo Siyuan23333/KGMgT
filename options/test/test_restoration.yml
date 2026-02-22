@@ -8,17 +8,12 @@ gpu_ids: [3]
 
 datasets:
   test_0:
-    name:  Heart5_mat
+    name: Heart5_mat
     type: RefDataset
-    dataroot_in: ~
-    dataroot_ref: ~
-    dataroot_mask: ~
-    mask_fold: mask6
-    io_backend:
-      type: disk
-    bicubic_model: PIL
+    ksp_dir: ~    # path to k-space .npy files  [T, C, H, W] complex
+    mask_dir: ~   # path to mask .npy files      [T, H, W]
+    sense_dir: ~  # path to sensitivity .npy files [T, C, H, W] complex
     ann_file: ~
-  #   # use_ColorJitter: true
 
 val_func: BasicSRValidation
 save_img: true #false # 
