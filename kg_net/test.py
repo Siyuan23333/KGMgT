@@ -5,9 +5,9 @@ import os.path as osp
 from mmcv.runner import get_time_str, init_dist
 
 from data import create_dataloader, create_dataset
-from models import create_model
-from utils import get_root_logger, make_exp_dirs
-from utils.options import dict2str, dict_to_nonedict, parse
+from kg_net.models import create_model
+from kg_net.utils import get_root_logger, make_exp_dirs
+from kg_net.utils.options import dict2str, dict_to_nonedict, parse
 
 
 def main():

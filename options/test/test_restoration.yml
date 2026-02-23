@@ -10,9 +10,9 @@ datasets:
   test_0:
     name: Heart5_mat
     type: RefDataset
-    ksp_dir: ~    # path to k-space .npy files  [T, C, H, W] complex
-    mask_dir: ~   # path to mask .npy files      [T, H, W]
-    sense_dir: ~  # path to sensitivity .npy files [T, C, H, W] complex
+    ksp_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/FullySampled    # path to k-space .npy files  [T, C, H, W] complex
+    mask_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/Mask_Radial8   # path to mask .npy files      [T, H, W]
+    sense_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/SenseMaps  # path to sensitivity .npy files [T, C, H, W] complex
     ann_file: ~
 
 val_func: BasicSRValidation

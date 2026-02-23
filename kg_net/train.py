@@ -10,11 +10,11 @@ from mmcv.runner import get_time_str, init_dist
 
 from data import create_dataloader, create_dataset
 from data.data_sampler import DistIterSampler
-from models import create_model
-from utils import (MessageLogger, get_root_logger, init_tb_logger,
+from kg_net.models import create_model
+from kg_net.utils import (MessageLogger, get_root_logger, init_tb_logger,
                         make_exp_dirs, set_random_seed)
-from utils.options import dict2str, dict_to_nonedict, parse
-from utils.util import check_resume
+from kg_net.utils.options import dict2str, dict_to_nonedict, parse
+from kg_net.utils.util import check_resume
 
 
 def main():

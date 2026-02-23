@@ -10,7 +10,7 @@ import kg_net.models.networks as networks
 import kg_net.utils.metrics as metrics
 from kg_net.utils import ProgressBar, tensor2img
 
-from .base_model import BaseModel
+from kg_net.models.base_model import BaseModel
 import pdb
 
 loss_module = importlib.import_module('kgmgt.models.losses')

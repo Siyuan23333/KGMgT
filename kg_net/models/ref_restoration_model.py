@@ -13,7 +13,7 @@ import kg_net.utils.PSNRSSIMloss as PSNRSSIMloss
 from kg_net.utils import ProgressBar, tensor2img, img2tensor
 from data.util import complex_abs_eval
 
-from .sr_model import SRModel
+from kg_net.models.sr_model import SRModel
 import pdb
 
 loss_module = importlib.import_module('kgmgt.models.losses')
