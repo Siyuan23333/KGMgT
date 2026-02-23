@@ -98,6 +98,7 @@ def main():
 
     for phase, dataset_opt in opt['datasets'].items():
         if phase == 'train':
+            dataset_opt['is_train'] = True
             # dataset_ratio: enlarge the size of datasets for each epoch
             dataset_enlarge_ratio = dataset_opt.get('dataset_enlarge_ratio', 1)
 
@@ -128,6 +129,12 @@ def main():
             logger.info(
                 f'Total epochs needed: {total_epochs} for iters {total_iters}')
         elif phase == 'val':
+            # inherit data directories and split config from train
+            train_opt = opt['datasets']['train']
+            for key in ('ksp_dir', 'mask_dir', 'sense_dir', 'split_ratio'):
+                if dataset_opt[key] is None:
+                    dataset_opt[key] = train_opt[key]
+            dataset_opt['is_train'] = False
             val_set = create_dataset(dataset_opt)
             val_loader = create_dataloader(val_set, dataset_opt, opt, None)
             logger.info(
