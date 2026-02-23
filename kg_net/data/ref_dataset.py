@@ -1,5 +1,6 @@
 import os
 import os.path as osp
+import random
 
 import numpy as np
 import torch
@@ -49,6 +50,12 @@ class RefDataset(data.Dataset):
         assert len(self.filenames) > 0, \
             f'No .npy files found for dataset {opt.get("name", "")}'
 
+        # apply train/val split if configured
+        split_ratio = opt.get('split_ratio', None)
+        if split_ratio is not None:
+            is_train = opt.get('is_train', False)
+            self._apply_split(is_train, split_ratio)
+
         # build flat index of (file_idx, frame_idx)
         self.samples = []
         for file_idx, fname in enumerate(self.filenames):
@@ -57,6 +64,19 @@ class RefDataset(data.Dataset):
             num_frames = ksp.shape[0]
             for t in range(num_frames):
                 self.samples.append((file_idx, t, num_frames))
+
+    def _apply_split(self, is_train, split_ratio):
+        """Split filenames into train/val with a stable shuffle.
+
+        Following the pattern from image_dataset.py: sort the filenames,
+        shuffle with a fixed seed for reproducibility, then split by the
+        given ratio.
+        """
+        filenames = sorted(self.filenames)
+        random.seed(42)
+        random.shuffle(filenames)
+        num_train = int(len(filenames) * split_ratio)
+        self.filenames = filenames[:num_train] if is_train else filenames[num_train:]
 
     def _get_ref_indices(self, t, num_frames):
         """Get temporal reference indices with reflection padding."""

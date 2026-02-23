@@ -42,9 +42,32 @@ class RefCUFEDDataset(data.Dataset):
             f'Mismatch: {len(self.ksp_paths)} ksp files vs '
             f'{len(self.sense_paths)} sense files')
 
+        # apply train/val split if configured
+        split_ratio = opt.get('split_ratio', None)
+        if split_ratio is not None:
+            is_train = opt.get('is_train', True)
+            self._apply_split(is_train, split_ratio)
+
         # Determine number of time frames from the first file
         sample_ksp = np.load(self.ksp_paths[0], mmap_mode='r')
         self.time_frames = sample_ksp.shape[0]
+
+    def _apply_split(self, is_train, split_ratio):
+        """Split file paths into train/val with a stable shuffle.
+
+        Following the pattern from image_dataset.py: sort the paths,
+        shuffle with a fixed seed for reproducibility, then split by the
+        given ratio.
+        """
+        combined = sorted(zip(self.ksp_paths, self.mask_paths, self.sense_paths))
+        random.seed(42)
+        random.shuffle(combined)
+        num_train = int(len(combined) * split_ratio)
+        selected = combined[:num_train] if is_train else combined[num_train:]
+        if selected:
+            self.ksp_paths, self.mask_paths, self.sense_paths = map(list, zip(*selected))
+        else:
+            self.ksp_paths, self.mask_paths, self.sense_paths = [], [], []
 
     def __len__(self):
         return len(self.ksp_paths) * self.time_frames
