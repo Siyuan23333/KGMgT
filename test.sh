@@ -16,5 +16,4 @@ module load conda
 conda activate KGMgT_old
 
 cd /gpfs/scrubbed/hanruish/cine_recon/codes/baseline/KGMgT
-export PYTHONPATH="/gpfs/scrubbed/hanruish/cine_recon/codes/baseline/KGMgT:$PYTHONPATH"
 python -m kg_net.test -opt "options/test/test_restoration.yml"

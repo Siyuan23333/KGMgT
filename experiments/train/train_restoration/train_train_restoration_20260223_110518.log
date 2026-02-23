@@ -1,0 +1,129 @@
+2026-02-23 11:05:18,707.707 - INFO:   name: train_restoration
+  use_tb_logger: True
+  model_type: RefRestorationModel
+  map_type: online_CUFED_swap
+  scale: 1
+  crop_border: 1
+  set_CUDA_VISIBLE_DEVICES: None
+  gpu_ids: [0, 1]
+  datasets:[
+    train:[
+      name: Heart_mat
+      type: RefCUFEDDataset
+      ksp_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/FullySampled
+      mask_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/Mask_Radial8
+      sense_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/SenseMaps
+      split_ratio: 0.8
+      gt_size: 256
+      use_flip: True
+      use_rot: True
+      use_shuffle: True
+      n_workers: 8
+      batch_size: 4
+      dataset_enlarge_ratio: 1000
+      phase: train
+      scale: 1
+    ]
+    val:[
+      name: val_Heart5_mat
+      type: RefDataset
+      phase: val
+      scale: 1
+    ]
+  ]
+  network_g:[
+    type: SwinUnetv3RestorationNet
+    ngf: 16
+    n_blocks: 4
+    groups: 4
+    embed_dim: 16
+    depths: [4, 4]
+    num_heads: [4, 4]
+    window_size: 8
+    use_checkpoint: True
+  ]
+  network_d:[
+    type: ImageDiscriminator
+    in_nc: 2
+    ndf: 32
+  ]
+  network_map:[
+    type: FlowSimCorrespondenceGenerationArch
+    patch_size: 3
+    stride: 1
+    vgg_layer_list: ['relu1_1', 'relu2_1', 'relu3_1']
+    vgg_type: vgg19
+  ]
+  network_extractor:[
+    type: ContrasExtractorSep
+  ]
+  path:[
+    pretrain_model_g: None
+    pretrain_model_d: None
+    pretrain_model_feature_extractor: ./experiments/pretrained_model/feature_extraction.pth
+    strict_load: False
+    resume_state: None
+    root: experiments/train/
+    experiments_root: experiments/train/train_restoration
+    models: experiments/train/train_restoration/models
+    training_state: experiments/train/train_restoration/training_state
+    log: experiments/train/train_restoration
+    visualization: experiments/train/train_restoration/visualization
+  ]
+  train:[
+    lr_g: 0.001
+    lr_offset: 0.001
+    lr_relu2_offset: 1e-05
+    lr_relu3_offset: 1e-06
+    weight_decay_g: 0
+    beta_g: [0.9, 0.999]
+    lr_d: 0.0001
+    weight_decay_d: 0
+    beta_d: [0.9, 0.999]
+    lr_scheme: MultiStepLR
+    niter: 500000
+    warmup_iter: -1
+    net_g_pretrain_steps: 0
+    lr_steps: [400000, 500000]
+    lr_gamma: 0.1
+    pixel_criterion: L1Loss
+    pixel_weight: 1.0
+    perceptual_opt:[
+      layer_weights:[
+        relu5_1: 1
+      ]
+      vgg_type: vgg19
+      use_input_norm: True
+      perceptual_weight: 0.0001
+      style_weight: 0
+      norm_img: False
+      criterion: fro
+    ]
+    gan_type: wgan
+    gan_weight: 1e-06
+    grad_penalty_weight: 10.0
+    net_d_steps: 1
+    net_d_init_steps: 0
+    manual_seed: 10
+  ]
+  val:[
+    val_freq: 2430.0
+    save_img: False
+  ]
+  logger:[
+    print_freq: 243
+    save_checkpoint_freq: 2430.0
+  ]
+  dist_params:[
+    backend: nccl
+    port: 29746
+  ]
+  is_train: True
+  dist: False
+
+2026-02-23 11:05:18,753.753 - INFO: Random seed: 10
+2026-02-23 11:05:18,768.768 - INFO: Dataset RefCUFEDDataset - Heart_mat is created.
+2026-02-23 11:05:18,768.768 - INFO: Number of train images: 17568, iters: 4392
+2026-02-23 11:05:18,768.768 - INFO: Total epochs needed: 114 for iters 500000
+2026-02-23 11:05:18,783.783 - INFO: Dataset RefDataset - val_Heart5_mat is created.
+2026-02-23 11:05:18,783.783 - INFO: Number of val images/folders in val_Heart5_mat: 4392

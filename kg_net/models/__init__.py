@@ -15,7 +15,7 @@ model_filenames = [
 ]
 # import all the model modules
 _model_modules = [
-    importlib.import_module(f'kgmgt.models.{file_name}')
+    importlib.import_module(f'kg_net.models.{file_name}')
     for file_name in model_filenames
 ]
 

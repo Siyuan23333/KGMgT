@@ -1,0 +1,56 @@
+2026-02-23 10:43:17,544.544 - INFO:   name: test_stage3_KGMgt_SAX_LAX*_SAX*
+  suffix: None
+  scale: 1
+  model_type: RefRestorationModel
+  set_CUDA_VISIBLE_DEVICES: None
+  crop_border: 1
+  gpu_ids: [3]
+  datasets:[
+    test_0:[
+      name: Heart5_mat
+      type: RefDataset
+      ksp_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/FullySampled
+      mask_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/Mask_Radial8
+      sense_dir: /gpfs/scrubbed/hanruish/cine_recon/datasets/cmr2025/training/SenseMaps
+      ann_file: None
+      phase: test
+      scale: 1
+    ]
+  ]
+  val_func: BasicSRValidation
+  save_img: True
+  network_g:[
+    type: RestorationNet
+    ngf: 16
+    n_blocks: 4
+    groups: 4
+    embed_dim: 16
+    depths: [4, 4]
+    num_heads: [4, 4]
+    window_size: 8
+    use_checkpoint: True
+  ]
+  network_map:[
+    type: FlowSimCorrespondenceGenerationArch
+    patch_size: 3
+    stride: 1
+    vgg_layer_list: ['relu1_1', 'relu2_1', 'relu3_1']
+    vgg_type: vgg19
+  ]
+  network_extractor:[
+    type: ContrasExtractorSep
+  ]
+  path:[
+    pretrain_model_g: None
+    pretrain_model_feature_extractor: experiments/pretrained_model/feature_extraction.pth
+    strict_load: False
+    root: experiments/test/
+    results_root: experiments/test/results/test_stage3_KGMgt_SAX_LAX*_SAX*
+    log: experiments/test/results/test_stage3_KGMgt_SAX_LAX*_SAX*
+    visualization: experiments/test/results/test_stage3_KGMgt_SAX_LAX*_SAX*/visualization
+  ]
+  is_train: False
+  dist: False
+
+2026-02-23 10:43:17,604.604 - INFO: Dataset RefDataset - Heart5_mat is created.
+2026-02-23 10:43:17,604.604 - INFO: Number of test images in Heart5_mat: 21960

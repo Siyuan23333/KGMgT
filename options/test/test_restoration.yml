@@ -20,7 +20,7 @@ save_img: true #false #
 
 #### network structures
 network_g:
-  type: RestorationNet  
+  type: SwinUnetv3RestorationNet  
   ngf: 16
   n_blocks: 4
   groups: 4

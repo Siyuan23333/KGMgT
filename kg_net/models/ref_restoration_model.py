@@ -16,7 +16,7 @@ from data.util import complex_abs_eval
 from kg_net.models.sr_model import SRModel
 import pdb
 
-loss_module = importlib.import_module('kgmgt.models.losses')
+loss_module = importlib.import_module('kg_net.models.losses')
 logger = logging.getLogger('base')
 psnr_list = []
 

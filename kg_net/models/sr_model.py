@@ -13,7 +13,7 @@ from kg_net.utils import ProgressBar, tensor2img
 from kg_net.models.base_model import BaseModel
 import pdb
 
-loss_module = importlib.import_module('kgmgt.models.losses')
+loss_module = importlib.import_module('kg_net.models.losses')
 
 logger = logging.getLogger('base')
 

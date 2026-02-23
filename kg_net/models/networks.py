@@ -32,6 +32,10 @@ def define_net_g(opt):
 
     opt_net = opt['network_g']
     network_type = opt_net.pop('type')
+    
+    print(f'_arch_modules: {_arch_modules}')
+    print(f'network_type: {network_type}')
+    
     net_g = dynamical_instantiation(_arch_modules, network_type, opt_net)
 
     return net_g

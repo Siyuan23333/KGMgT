@@ -15,4 +15,5 @@ module load conda
 
 conda activate KGMgT_old
 
+cd /gpfs/scrubbed/hanruish/cine_recon/codes/baseline/KGMgT
 python -m kg_net.train -opt "options/train/train_restoration.yml"
